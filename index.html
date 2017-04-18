@@ -18,11 +18,18 @@
             Flipkart Product Search
         </div>
     </md-toolbar>
-    <md-content class="search-content">
+    <md-content class="search-content" ng-controller="searchCtrl">
         <md-input-container md-no-float class="md-block">
             <md-icon md-svg-src="images/ic_search_black_24px.svg"></md-icon>
-            <input type="text" placeholder="Search for products">
+            <input type="text" placeholder="Search for products" ng-change="search()" ng-model="query">
         </md-input-container>
+        <div ng-if="!query" align="center" class="no-search-term">
+            <img src="images/product.png">
+            <h2>Enter search term to search for products</h2>
+        </div>
+        <div ng-if="query">
+
+        </div>
     </md-content>
 </div>
 
