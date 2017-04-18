@@ -4,4 +4,7 @@
 /**
  * You must include the dependency on 'ngMaterial'
  */
-angular.module('FlipkartProductSearchApp', ['ngMaterial']);
+// Immediately Invoked function expression
+(function () {
+    var app = angular.module('FlipkartProductSearchApp', ['ngMaterial']);
+})();
