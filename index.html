@@ -12,25 +12,53 @@
 </head>
 <body ng-app="FlipkartProductSearchApp">
 <div layout="column" layout-fill ng-cloak>
-    <md-toolbar md-scroll-shrink>
+    <md-toolbar md-scroll-shrink style="position: fixed">
         <div class="md-toolbar-tools">
             <i class="material-icons menu-icon">menu</i>
             Flipkart Product Search
         </div>
     </md-toolbar>
-    <md-content class="search-content" ng-controller="searchCtrl">
+    <div class="search-content" ng-controller="searchCtrl" style="padding-top: 60px">
         <md-input-container md-no-float class="md-block">
-            <md-icon md-svg-src="images/ic_search_black_24px.svg"></md-icon>
-            <input type="text" placeholder="Search for products" ng-change="search()" ng-model="query">
+            <input type="text" placeholder="Enter Search Query" ng-model="query"
+                   ng-keyup="$event.keyCode == 13 && search()">
+            <md-icon md-svg-src="images/ic_search_black_24px.svg" ng-click="search()"></md-icon>
         </md-input-container>
         <div ng-if="!query" align="center" class="no-search-term">
             <img src="images/product.png">
             <h2>Enter search term to search for products</h2>
         </div>
         <div ng-if="query">
-
+            <div ng-if="loading == true" layout="row" layout-sm="column" layout-align="space-around">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+            </div>
+            <div ng-if="loading == false">
+                <md-grid-list
+                        md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6"
+                        md-row-height-gt-md="2:2" md-row-height="2:3"
+                        md-gutter="12px" md-gutter-gt-sm="8px">
+                    <md-grid-tile ng-repeat="d in data.productInfoList" md-colspan="1" md-rowspan="1" md-colspan-sm="1"
+                                  md-colspan-xs="1">
+                        <div align="center">
+                            <img src="{{d.productBaseInfo.productAttributes.imageUrls['200x200']}}">
+                            <p>
+                                <h5>{{d.productBaseInfo.productAttributes.title}}</h5>
+                                <span>{{d.productBaseInfo.productAttributes.sellingPrice.amount | number : 2}} {{d.productBaseInfo.productAttributes.sellingPrice.currency}}</span>
+                                <span style="text-decoration: line-through">{{d.productBaseInfo.productAttributes.maximumRetailPrice.amount | number : 2}} {{d.productBaseInfo.productAttributes.maximumRetailPrice.currency}}</span>
+                                <br>
+                                <a target="_blank" href="{{d.productBaseInfo.productAttributes.productUrl}}">
+                                    <md-button class="md-raised md-primary" style="width: 100%">Buy Now</md-button>
+                                </a>
+                            </p>
+                        </div>
+                        <!--<md-grid-tile-footer>
+                            <h3 style="text-align: center">{{d.productBaseInfo.productAttributes.title}}</h3>
+                        </md-grid-tile-footer>-->
+                    </md-grid-tile>
+                </md-grid-list>
+            </div>
         </div>
-    </md-content>
+    </div>
 </div>
 
 <!-- Angular Material requires Angular.js Libraries -->
