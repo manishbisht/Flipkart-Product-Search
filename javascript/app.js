@@ -9,25 +9,19 @@
     var app = angular.module('FlipkartProductSearchApp', ['ngMaterial']);
     app.controller('searchCtrl', function ($scope, $http){
         $scope.search = function () {
+            $scope.products = '';
+            $scope.loading = true;
             if($scope.query){
                 console.log($scope.query);
-                /*$http.defaults.headers.common['Fk-Affiliate-Id'] = 'bestshopp';
-                $http.defaults.headers.common['Fk-Affiliate-Token'] = '21719d092a4c47bba14ee26dc9726988';
-                $http.defaults.headers.common['Access-Control-Allow-Origin'] = '*';*/
                 $http({
                     method : "GET",
-                    url : "https://affiliate-api.flipkart.net/affiliate/search/json?resultCount=10&query="+$scope.query,
-                    headers: {
-                        'Fk-Affiliate-Id': 'bestshopp',
-                        'Fk-Affiliate-Token': '21719d092a4c47bba14ee26dc9726988',
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Headers': 'Origin'
-                    }
+                    url : "https://c0yllzk47a.execute-api.us-east-1.amazonaws.com/v1?query="+$scope.query
                 }).success(function mySucces(response) {
-                    console.log(response.data);
+                    console.log(JSON.parse(response));
+                    $scope.data = JSON.parse(response);
+                    $scope.loading = false;
                 });
             }
-
         }
     });
 })();
